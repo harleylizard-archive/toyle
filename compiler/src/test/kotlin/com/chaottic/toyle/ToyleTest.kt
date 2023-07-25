@@ -8,14 +8,14 @@ class ToyleTest {
 
 	@Test
 	fun tokenizer() {
-		Tokenizer().tokenize(Files.readString(Paths.get("src/test/resources/Example.toyle"))).forEach {
+		Tokenizer().tokenize(Files.readString(Paths.get("src/main/toyle/com/chaottic/toyle/Example.toyle"))).forEach {
 			println(it)
 		}
 	}
 
 	@Test
 	fun compile() {
-		val compile = Compile()
+		val compiler = Compiler()
 		val tokenizer = Tokenizer()
 
 		Files.walkFileTree(Paths.get("src/main/toyle"), object : SimpleFileVisitor<Path>() {
@@ -28,7 +28,7 @@ class ToyleTest {
 					val path = Paths.get("build/classes/toyle/test", namespace, "${name}.class")
 					path.parent.takeUnless(Files::isDirectory)?.let(Files::createDirectories)
 
-					compile.compile(name, tokenizer.tokenize(Files.readString(file)), path)
+					compiler.compile(name, tokenizer.tokenize(Files.readString(file)), path)
 				}
 				return super.visitFile(file, attrs)
 			}

@@ -4,6 +4,7 @@ enum class Token {
 	PACKAGE,
 	IDENTIFIER,
 	CLASS,
+	ENUM,
 	FUNCTION,
 	LBRACE,
 	RBRACE,

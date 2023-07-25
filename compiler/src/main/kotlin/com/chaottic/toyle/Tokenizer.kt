@@ -1,11 +1,12 @@
 package com.chaottic.toyle
 
+import com.chaottic.toyle.TokenValue.Companion.to
 import java.util.*
 
 class Tokenizer {
 
-	fun tokenize(source: String): List<Pair<Token, String>> {
-		val list = arrayListOf<Pair<Token, String>>()
+	fun tokenize(source: String): List<TokenValue> {
+		val list = arrayListOf<TokenValue>()
 
 		StringTokenizer(source, " (){\t\n\r},:", true).also {
 			while (it.hasMoreTokens()) {
@@ -26,7 +27,9 @@ class Tokenizer {
 			return Optional.of(Token.PACKAGE)
 		} else if (value == "class") {
 			return Optional.of(Token.CLASS)
-		}  else if (value == "function") {
+		} else if (value == "enum") {
+			return Optional.of(Token.ENUM)
+		} else if (value == "function") {
 			return Optional.of(Token.FUNCTION)
 		} else if (value == "var") {
 			return Optional.of(Token.VAR)
