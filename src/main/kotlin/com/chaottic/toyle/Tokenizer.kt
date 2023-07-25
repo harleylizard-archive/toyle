@@ -4,17 +4,21 @@ import java.util.*
 
 class Tokenizer {
 
-	fun tokenize(source: String) {
+	fun tokenize(source: String): List<Pair<Token, String>> {
+		val list = arrayListOf<Pair<Token, String>>()
+
 		StringTokenizer(source, " (){\t\n\r},:", true).also {
 			while (it.hasMoreTokens()) {
 				val next = it.nextToken()
 				val optional = getToken(next)
 
 				if (optional.isPresent) {
-					println(optional.get() to next)
+					list.add(optional.get() to next)
 				}
 			}
 		}
+
+		return Collections.unmodifiableList(list)
 	}
 
 	private fun getToken(value: String): Optional<Token> {
@@ -28,7 +32,7 @@ class Tokenizer {
 			return Optional.of(Token.VAR)
 		} else if (value == "=") {
 			return Optional.of(Token.EQUALS)
-		} else if (value.matches(name)) {
+		} else if (value.matches(identifier)) {
 			return Optional.of(Token.IDENTIFIER)
 		} else if (value == "{") {
 			return Optional.of(Token.LBRACE)
@@ -49,6 +53,6 @@ class Tokenizer {
 	}
 
 	private companion object {
-		val name = "^[a-zA-Z0-9_.]+\$".toRegex()
+		val identifier = "^[a-zA-Z0-9_.]+\$".toRegex()
 	}
 }

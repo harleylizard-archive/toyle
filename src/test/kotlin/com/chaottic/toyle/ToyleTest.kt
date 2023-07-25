@@ -8,7 +8,11 @@ class ToyleTest {
 
 	@Test
 	fun tokenizer() {
-
 		Tokenizer().tokenize(Files.readString(Paths.get("src/test/resources/Example.toyle")))
+	}
+
+	@Test
+	fun compile() {
+		Compile().compile("example", Tokenizer().tokenize(Files.readString(Paths.get("src/test/resources/Example.toyle"))), Paths.get("build/example.class"))
 	}
 }
