@@ -6,4 +6,4 @@ pluginManagement {
 	}
 }
 include("gradle-plugin")
-include("compile")
+include("compiler")
