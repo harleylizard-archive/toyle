@@ -13,7 +13,8 @@ open class ToyleCompileTask : AbstractCompile(), HasCompileOptions {
 	private val options = project.objects.newInstance(CompileOptions::class.java)
 
 	@TaskAction
-	fun compile() {logger.log(LogLevel.ERROR, destinationDirectory.toString())
+	fun compile() {
+
 	}
 
 	override fun getOptions(): CompileOptions = options

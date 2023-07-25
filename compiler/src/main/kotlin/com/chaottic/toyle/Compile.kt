@@ -11,7 +11,7 @@ class Compile {
 
 	fun compile(name: String, list: List<Pair<Token, String>>, path: Path) {
 		val cw = ClassWriter(ClassWriter.COMPUTE_FRAMES)
-		cw.visit(Opcodes.V19, Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL, name, null, "java/lang/Object", null)
+		cw.visit(Opcodes.V19, Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL, "${list.get(1)!!.second.replace(".", "/")}/$name", null, "java/lang/Object", null)
 
 		val constructor = cw.visitMethod(Opcodes.ACC_PRIVATE, "<init>", "()V", null, null)
 		constructor.visitEnd()

@@ -13,6 +13,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation(project(":compiler"))
+}
+
 gradlePlugin {
     plugins {
         create("toyle") {

@@ -1,5 +1,0 @@
-package example.Example
-
-function foo() -> int {
-
-}
