@@ -13,6 +13,6 @@ class ToyleTest {
 
 	@Test
 	fun compile() {
-		Compile().compile("example", Tokenizer().tokenize(Files.readString(Paths.get("src/test/resources/Example.toyle"))), Paths.get("build/example.class"))
+		Compile().compile("Example", Tokenizer().tokenize(Files.readString(Paths.get("src/test/resources/Example.toyle"))), Paths.get("build/example.class"))
 	}
 }

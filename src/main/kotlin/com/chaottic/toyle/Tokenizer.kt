@@ -30,8 +30,8 @@ class Tokenizer {
 			return Optional.of(Token.FUNCTION)
 		} else if (value == "var") {
 			return Optional.of(Token.VAR)
-		} else if (value == "=") {
-			return Optional.of(Token.EQUALS)
+		} else if (value == "private") {
+			return Optional.of(Token.PRIVATE)
 		} else if (value.matches(identifier)) {
 			return Optional.of(Token.IDENTIFIER)
 		} else if (value == "{") {
@@ -48,6 +48,8 @@ class Tokenizer {
 			return Optional.of(Token.COMMA)
 		} else if (value == ":") {
 			return Optional.of(Token.COLON)
+		} else if (value == "=") {
+			return Optional.of(Token.EQUALS)
 		}
 		return Optional.empty()
 	}

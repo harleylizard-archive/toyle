@@ -1,5 +1,5 @@
 package example.Example
 
-function foo() {
+function foo() -> int {
 
 }
