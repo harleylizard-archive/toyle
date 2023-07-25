@@ -9,6 +9,8 @@ class ToylePlugin : Plugin<Project> {
 	override fun apply(target: Project) {
 		target.pluginManager.apply(JavaPlugin::class.java)
 
+		// val compileTask = target.tasks.create("compileToyle", ToyleCompileTask::class.java)
+
 		target.extensions.getByType(JavaPluginExtension::class.java).sourceSets.all {
 			val toyleSourceDirectorySet = target.objects.sourceDirectorySet("toyle", "Toyle")
 			toyleSourceDirectorySet.srcDir("src/${it.name}/toyle")
@@ -19,6 +21,9 @@ class ToylePlugin : Plugin<Project> {
 			it.allJava.source(toyleSourceDirectorySet)
 			it.allSource.source(toyleSourceDirectorySet)
 
+			target.tasks.named(it.classesTaskName) { task ->
+
+			}
 		}
 	}
 }

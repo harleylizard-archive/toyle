@@ -13,10 +13,6 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "19"
-}
-
 gradlePlugin {
     plugins {
         create("toyle") {
