@@ -14,6 +14,5 @@ enum class Token {
 	RETURN,
 	COMMA,
 	COLON,
-	PRIVATE,
-	VOID
+	PRIVATE
 }

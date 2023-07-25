@@ -1,0 +1,5 @@
+package com.chaottic.toyle
+
+enum Token {
+
+}

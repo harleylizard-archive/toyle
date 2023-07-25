@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.ints.IntStack
 import org.objectweb.asm.*
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.*
 
 class Compile {
 
@@ -38,9 +39,23 @@ class Compile {
 	private fun function(iterator: Iterator<Pair<Token, String>>, cw: ClassWriter, stack: IntStack) {
 		val identifier = iterator.next()
 
+		val parameters = collectParameters(iterator)
+
 		val builder = StringBuilder()
-		builder.append(iterator.next().second)
-		builder.append(iterator.next().second)
+		builder.append('(')
+		val parametersIterator = parameters.iterator()
+		while (parametersIterator.hasNext()) {
+			val next = parametersIterator.next()
+			if (next.first == Token.COMMA) {
+				continue
+			}
+
+			val type = parametersIterator.next()
+			if (type.first == Token.IDENTIFIER) {
+				builder.append(getType(type.second).descriptor)
+			}
+		}
+		builder.append(')')
 
 		val returnType = iterator.next()
 		if (returnType.first == Token.RETURN) {
@@ -50,7 +65,19 @@ class Compile {
 		}
 
 		val mv = cw.visitMethod(getAccess(stack) + Opcodes.ACC_STATIC, identifier.second, builder.toString(), null, null)
+		mv.visitCode()
 		mv.visitEnd()
+	}
+
+	private fun collectParameters(iterator: Iterator<Pair<Token, String>>): List<Pair<Token, String>> {
+		val list = arrayListOf<Pair<Token, String>>()
+
+		var next = iterator.next()
+		while (iterator.next().also { next = it }.first != Token.RPAREN) {
+			list.add(next)
+		}
+
+		return Collections.unmodifiableList(list)
 	}
 
 	private fun getAccess(stack: IntStack) = if (stack.isEmpty) Opcodes.ACC_PUBLIC else stack.popInt()
@@ -63,6 +90,7 @@ class Compile {
 		"long" -> Type.LONG_TYPE
 		"float" -> Type.FLOAT_TYPE
 		"double" -> Type.DOUBLE_TYPE
-		else -> throw RuntimeException()
+		"boolean" -> Type.BOOLEAN_TYPE
+		else -> Type.getType(value)
 	}
 }
