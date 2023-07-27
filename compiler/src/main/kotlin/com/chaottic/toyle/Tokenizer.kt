@@ -1,63 +1,50 @@
 package com.chaottic.toyle
 
-import com.chaottic.toyle.TokenValue.Companion.to
+import com.chaottic.toyle.TokenType.Companion.to
 import java.util.*
 
-class Tokenizer {
+@JvmInline
+value class Tokenizer private constructor(private val list: MutableList<Token>) {
 
-	fun tokenize(source: String): List<TokenValue> {
-		val list = arrayListOf<TokenValue>()
+	override fun toString(): String {
+		val builder = StringBuilder()
 
-		StringTokenizer(source, " (){\t\n\r},:", true).also {
-			while (it.hasMoreTokens()) {
-				val next = it.nextToken()
-				val optional = getToken(next)
+		list.forEach {
+			builder.append(it.toString()).append("\n")
+		}
+		return builder.toString()
+	}
 
-				if (optional.isPresent) {
-					list.add(optional.get() to next)
+	companion object {
+		private val id = "^[a-zA-Z0-9_.]+\$".toRegex()
+
+		fun tokenize(source: String): Tokenizer {
+			val tokenizer = StringTokenizer(source, " (){\t\n\r},:", true)
+
+			val list = buildList {
+				while (tokenizer.hasMoreTokens()) {
+					getToken(tokenizer.nextToken())?.let(this::add)
+				}
+			}
+
+			return Tokenizer(Collections.unmodifiableList(list))
+		}
+
+		private fun getToken(string: String): Token? {
+			return when (string) {
+				"package" -> TokenType.PACKAGE.asToken()
+				"class" -> TokenType.CLASS.asToken()
+				"function" -> TokenType.FUNCTION.asToken()
+				"(" -> TokenType.L_PARENTHESIS.asToken()
+				")" -> TokenType.R_PARENTHESIS.asToken()
+				"{" -> TokenType.L_BRACKET.asToken()
+				"}" -> TokenType.R_BRACKET.asToken()
+				else -> {
+					if (string.matches(id)) return TokenType.IDENTIFIER to string
+
+					null
 				}
 			}
 		}
-
-		return Collections.unmodifiableList(list)
-	}
-
-	private fun getToken(value: String): Optional<Token> {
-		if (value == "package") {
-			return Optional.of(Token.PACKAGE)
-		} else if (value == "class") {
-			return Optional.of(Token.CLASS)
-		} else if (value == "enum") {
-			return Optional.of(Token.ENUM)
-		} else if (value == "function") {
-			return Optional.of(Token.FUNCTION)
-		} else if (value == "var") {
-			return Optional.of(Token.VAR)
-		} else if (value == "private") {
-			return Optional.of(Token.PRIVATE)
-		} else if (value.matches(identifier)) {
-			return Optional.of(Token.IDENTIFIER)
-		} else if (value == "{") {
-			return Optional.of(Token.LBRACE)
-		} else if (value == "}") {
-			return Optional.of(Token.RBRACE)
-		} else if (value == "(") {
-			return Optional.of(Token.LPAREN)
-		} else if (value == ")") {
-			return Optional.of(Token.RPAREN)
-		} else if (value == "->") {
-			return Optional.of(Token.RETURN)
-		} else if (value == ",") {
-			return Optional.of(Token.COMMA)
-		} else if (value == ":") {
-			return Optional.of(Token.COLON)
-		} else if (value == "=") {
-			return Optional.of(Token.EQUALS)
-		}
-		return Optional.empty()
-	}
-
-	private companion object {
-		val identifier = "^[a-zA-Z0-9_.]+\$".toRegex()
 	}
 }

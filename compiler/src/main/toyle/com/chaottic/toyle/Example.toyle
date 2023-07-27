@@ -1,5 +1,10 @@
 package com.chaottic.toyle
 
-function main(args string) {
+function main(args: int) {
+}
 
+function fooBar() -> int {
+}
+
+class HelloWorld {
 }
