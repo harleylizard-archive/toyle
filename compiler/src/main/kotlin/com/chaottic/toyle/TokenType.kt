@@ -2,10 +2,17 @@ package com.chaottic.toyle
 
 enum class TokenType {
 	PACKAGE,
+	IMPORT,
 	CLASS,
 	FUNCTION,
 
 	IDENTIFIER,
+
+	RETURN,
+	RETURN_LIGATURE,
+
+	COLON,
+	COMMA,
 
 	L_PARENTHESIS,
 	R_PARENTHESIS,
