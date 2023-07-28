@@ -1,6 +1,6 @@
 package com.chaottic.toyle
 
-enum class TokenType {
+enum class TokenType : Rule {
 	PACKAGE,
 	IMPORT,
 	CLASS,

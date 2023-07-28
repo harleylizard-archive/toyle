@@ -13,6 +13,12 @@ class ToyleTest {
 	}
 
 	@Test
+	fun grammar() {
+		val tokenizer = Tokenizer.tokenize(Files.readString(Paths.get("src/main/toyle/com/chaottic/toyle/Example.toyle")))
+
+	}
+
+	@Test
 	fun compile() {
 		//Files.walkFileTree(Paths.get("src/main/toyle"), object : SimpleFileVisitor<Path>() {
 		//	override fun visitFile(file: Path, attrs: BasicFileAttributes?): FileVisitResult {

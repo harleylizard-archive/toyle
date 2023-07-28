@@ -4,7 +4,7 @@ import com.chaottic.toyle.TokenType.Companion.to
 import java.util.*
 
 @JvmInline
-value class Tokenizer private constructor(private val list: MutableList<Token>) {
+value class Tokenizer private constructor(private val list: List<Token>) {
 
 	override fun toString(): String {
 		val builder = StringBuilder()

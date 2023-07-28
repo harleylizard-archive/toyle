@@ -1,3 +1,11 @@
 package com.chaottic.toyle
 
 import java.lang.String
+
+function example(i: int) {
+
+}
+
+function exampleString(s: String) {
+
+}
