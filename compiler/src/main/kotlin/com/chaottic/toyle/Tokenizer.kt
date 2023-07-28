@@ -4,7 +4,7 @@ import com.chaottic.toyle.TokenType.Companion.to
 import java.util.*
 
 @JvmInline
-value class Tokenizer private constructor(private val list: List<Token>) {
+value class Tokenizer private constructor(private val list: List<Token>) : Iterable<Token> {
 
 	override fun toString(): String {
 		val builder = StringBuilder()
@@ -15,8 +15,10 @@ value class Tokenizer private constructor(private val list: List<Token>) {
 		return builder.toString()
 	}
 
+	override fun iterator() = list.iterator()
+
 	companion object {
-		private val id = "^[a-zA-Z0-9_.]+\$".toRegex()
+		private val identifier = "^[a-zA-Z0-9_.]+\$".toRegex()
 
 		fun tokenize(source: String): Tokenizer {
 			val tokenizer = StringTokenizer(removeComments(source), " (){\t\n\r},:", true)
@@ -68,7 +70,7 @@ value class Tokenizer private constructor(private val list: List<Token>) {
 				"{" -> TokenType.L_BRACKET.asToken()
 				"}" -> TokenType.R_BRACKET.asToken()
 				else -> {
-					if (string.matches(id)) return TokenType.IDENTIFIER to string
+					if (string.matches(identifier)) return TokenType.IDENTIFIER to string
 
 					null
 				}

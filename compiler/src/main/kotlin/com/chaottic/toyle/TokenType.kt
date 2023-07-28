@@ -22,6 +22,8 @@ enum class TokenType : Rule {
 
 	fun asToken() = Token(this, Optional.empty())
 
+	override fun test(t: Iterator<Token>) = t.next().`is`(this)
+
 	companion object {
 		infix fun TokenType.to(string: String) = Token(this, Optional(string))
 	}

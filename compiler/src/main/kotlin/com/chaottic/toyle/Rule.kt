@@ -1,3 +1,5 @@
 package com.chaottic.toyle
 
-sealed interface Rule
+import java.util.function.Predicate
+
+sealed interface Rule : Predicate<Iterator<Token>>

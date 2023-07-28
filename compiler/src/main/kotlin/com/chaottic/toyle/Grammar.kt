@@ -1,29 +1,44 @@
 package com.chaottic.toyle
 
-class Grammar private constructor() {
+import java.util.*
+import java.util.function.*
+
+@JvmInline
+value class Grammar private constructor(private val list: List<Rule>) : Predicate<Tokenizer> {
+
+	override fun test(t: Tokenizer): Boolean {
+		val iterator = t.iterator()
+		while (iterator.hasNext()) {
+
+		}
+
+		return false
+	}
 
 	companion object {
-		private val function = ExplicitRule
-		private val parameters = ExplicitRule
-		private val expression = ExplicitRule
 
-		private val grammar = grammar {
-			function then TokenType.IDENTIFIER then parameters then expression
+		val grammar = grammar {
+			val parameter = create(TokenType.IDENTIFIER then TokenType.COLON then TokenType.IDENTIFIER)
 
-			parameters then TokenType.L_PARENTHESIS then TokenType.R_PARENTHESIS
+			val parameters = create(TokenType.L_PARENTHESIS then parameter then TokenType.R_PARENTHESIS)
 
-			expression then TokenType.L_BRACKET then TokenType.R_BRACKET
+			val expression = create(TokenType.L_BRACKET then TokenType.R_BRACKET)
+
+			val function = create(TokenType.FUNCTION then TokenType.IDENTIFIER then parameters then expression)
 		}
 
 		private class Builder {
+			private val list = mutableListOf<Rule>()
 
 			infix fun Rule.then(rule: Rule): Rule {
-				return ExplicitRule
+				return ExplicitRule {
+					it.hasNext() && this.test(it) && rule.test(it)
+				}
 			}
 
-			fun build(): Grammar {
-				return Grammar()
-			}
+			fun create(rule: Rule) = rule.also(list::add)
+
+			fun build() = Grammar(Collections.unmodifiableList(list))
 		}
 
 		private inline fun grammar(block: Builder.() -> Unit): Grammar {

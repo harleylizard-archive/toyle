@@ -1,3 +1,4 @@
 package com.chaottic.toyle
 
-data object ExplicitRule : Rule
+@FunctionalInterface
+fun interface ExplicitRule : Rule

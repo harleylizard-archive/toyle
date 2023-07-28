@@ -16,6 +16,7 @@ class ToyleTest {
 	fun grammar() {
 		val tokenizer = Tokenizer.tokenize(Files.readString(Paths.get("src/main/toyle/com/chaottic/toyle/Example.toyle")))
 
+		Grammar.grammar.test(tokenizer)
 	}
 
 	@Test
